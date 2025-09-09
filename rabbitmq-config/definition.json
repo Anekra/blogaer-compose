@@ -1,0 +1,61 @@
+{
+  "rabbit_version": "3.13.0",
+  "users": [
+    {
+      "name": "anekra",
+      "password_hash": "_AdmiN-PassworD_",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    },
+    {
+      "name": "api-gateway-user",
+      "password_hash": "_GatewaY-PassworD_",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ""
+    },
+    {
+      "name": "post-ms-user",
+      "password_hash": "_PosT-PassworD_",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ""
+    },
+    {
+      "name": "oauth-ms-user",
+      "password_hash": "_OautH-PassworD_",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ""
+    }
+  ],
+  "vhosts": [
+    { "name": "api-gateway-vhost" },
+    { "name": "post-ms-vhost" },
+    { "name": "oauth-ms-vhost" }
+  ],
+  "permissions": [
+    {
+      "user": "microservice-a-user",
+      "vhost": "microservice-a-vhost",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "microservice-b-user",
+      "vhost": "microservice-b-vhost",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "microservice-c-user",
+      "vhost": "microservice-c-vhost",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "policies": [],
+  "queues": [],
+  "exchanges": [],
+  "bindings": []
+}
