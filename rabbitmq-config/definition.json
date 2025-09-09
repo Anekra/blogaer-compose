@@ -33,22 +33,22 @@
   ],
   "permissions": [
     {
-      "user": "microservice-a-user",
-      "vhost": "microservice-a-vhost",
+      "user": "api-gateway-user",
+      "vhost": "api-gateway-vhost",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
     },
     {
-      "user": "microservice-b-user",
-      "vhost": "microservice-b-vhost",
+      "user": "post-ms-user",
+      "vhost": "post-ms-vhost",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
     },
     {
-      "user": "microservice-c-user",
-      "vhost": "microservice-c-vhost",
+      "user": "oauth-ms-user",
+      "vhost": "oauth-ms-vhost",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
