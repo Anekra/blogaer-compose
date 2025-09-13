@@ -1,5 +1,25 @@
 version: '3.8'
+
 services:
+  post-ms:
+    image: localhost/post-service:latest
+    restart: unless-stopped
+    container_name: post-ms
+    environment:
+      - RABBIT_USER=${RABBIT_USER}
+      - RABBIT_PASS=${RABBIT_PASS}
+      - RABBIT_VHOST=${RABBIT_VHOST}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASS=${MONGO_PASS}
+      - MONGO_DB=${MONGO_DB}
+    ports:
+      - '3031:8080'
+    depends_on:
+      - rabbitmq
+      - mongodb
+    networks:
+      - blogaer-net
+
   rabbitmq:
     image: docker.io/rabbitmq:4.1.3-management-alpine
     restart: unless-stopped
@@ -8,7 +28,8 @@ services:
       - '5672:5672'
       - '15672:15672'
     volumes:
-      - ./rabbitmq-config/:/etc/rabbitmq/
+      - ./rabbitmq-config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbitmq-config/definition.json:/etc/rabbitmq/definition.json:ro
     networks:
       - blogaer-net
 
@@ -19,6 +40,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
     ports:
       - '27017:27017'
     volumes:
