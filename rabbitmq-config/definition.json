@@ -3,35 +3,43 @@
   "users": [
     {
       "name": "anekra",
-      "password_hash": "_AdmiN-PassworD_",
+      "password_hash": "y7Vu2pOK6UI28XOiZLsuGFDRPAfA3SHQb2Kq4fhjxFtlcG45",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": "administrator"
     },
     {
       "name": "api-gateway-user",
-      "password_hash": "_GatewaY-PassworD_",
+      "password_hash": "tcf/KXYGYXivNn3nlXqGnSzhAvoFrREaVTXVNHVDibZEPR7W",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": ""
     },
     {
       "name": "post-ms-user",
-      "password_hash": "_PosT-PassworD_",
+      "password_hash": "4X4BEL9kZTbxC8KO/qbF9Nrjm5QCbsw2rVJDR+yHiDGKO7W6",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": ""
     },
     {
       "name": "oauth-ms-user",
-      "password_hash": "_OautH-PassworD_",
+      "password_hash": "NiSeaN5qAlCjfgmfIU9pxkwc6vhvQ/RF2SihUFiTLMKsbXfU",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": ""
     }
   ],
   "vhosts": [
+    { "name": "admin-vhost" },
     { "name": "api-gateway-vhost" },
     { "name": "post-ms-vhost" },
     { "name": "oauth-ms-vhost" }
   ],
   "permissions": [
+    {
+      "user": "anekra",
+      "vhost": "admin-vhost",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
     {
       "user": "api-gateway-user",
       "vhost": "api-gateway-vhost",
