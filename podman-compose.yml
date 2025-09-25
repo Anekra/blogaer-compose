@@ -6,9 +6,9 @@ services:
     restart: unless-stopped
     container_name: post-ms
     environment:
-      - RABBIT_USER=${RABBIT_USER}
-      - RABBIT_PASS=${RABBIT_PASS}
-      - RABBIT_VHOST=${RABBIT_VHOST}
+      - RABBIT_USER=${POST_USER}
+      - RABBIT_PASS=${POST_PASS}
+      - RABBIT_VHOST=${POST_VHOST}
       - MONGO_USER=${MONGO_USER}
       - MONGO_PASS=${MONGO_PASS}
       - MONGO_DB=${MONGO_DB}

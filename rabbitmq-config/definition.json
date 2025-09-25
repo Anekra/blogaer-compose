@@ -3,25 +3,25 @@
   "users": [
     {
       "name": "anekra",
-      "password_hash": "y7Vu2pOK6UI28XOiZLsuGFDRPAfA3SHQb2Kq4fhjxFtlcG45",
+      "password_hash": "dskcA/eoXz8mt/Mr2H+MGW42KfFLGtZu0iZTHmYamBFi/X0u",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": "administrator"
     },
     {
       "name": "api-gateway-user",
-      "password_hash": "tcf/KXYGYXivNn3nlXqGnSzhAvoFrREaVTXVNHVDibZEPR7W",
+      "password_hash": "QCFbGwROcLIBWovLGFEfATo0aay8iM1ua44G7V2AMIkju/d6",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": ""
     },
     {
       "name": "post-ms-user",
-      "password_hash": "4X4BEL9kZTbxC8KO/qbF9Nrjm5QCbsw2rVJDR+yHiDGKO7W6",
+      "password_hash": "1deVaQKWYqBEzWSfI4ZvJr/rjgFPcTmXixNyskzcAJVnr42v",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": ""
     },
     {
       "name": "oauth-ms-user",
-      "password_hash": "NiSeaN5qAlCjfgmfIU9pxkwc6vhvQ/RF2SihUFiTLMKsbXfU",
+      "password_hash": "aBOAVmoET048qfDCU1MUtS9N0fKv67PtbY8Ct/kbIlbp7UiE",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": ""
     }
