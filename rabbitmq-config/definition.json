@@ -1,69 +1,52 @@
 {
   "rabbit_version": "3.13.0",
   "users": [
-    {
-      "name": "anekra",
-      "password_hash": "dskcA/eoXz8mt/Mr2H+MGW42KfFLGtZu0iZTHmYamBFi/X0u",
-      "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": "administrator"
-    },
-    {
-      "name": "api-gateway-user",
-      "password_hash": "QCFbGwROcLIBWovLGFEfATo0aay8iM1ua44G7V2AMIkju/d6",
-      "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ""
-    },
-    {
-      "name": "post-ms-user",
-      "password_hash": "1deVaQKWYqBEzWSfI4ZvJr/rjgFPcTmXixNyskzcAJVnr42v",
-      "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ""
-    },
-    {
-      "name": "oauth-ms-user",
-      "password_hash": "aBOAVmoET048qfDCU1MUtS9N0fKv67PtbY8Ct/kbIlbp7UiE",
-      "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ""
-    }
+    { "name": "anekra", "password_hash": "pIRiMplU85jj/Q1XYP9/4/jNrtqxon9vHghZ80rrnp4bxunz", "hashing_algorithm": "rabbit_password_hashing_sha256", "tags": "administrator" },
+    { "name": "api-gateway-user", "password_hash": "jU4zs4IlI1GSyOLPxI5+V+fhslORVtog5p/Qfl34UKZfrsdB", "hashing_algorithm": "rabbit_password_hashing_sha256", "tags": "" },
+    { "name": "post-ms-user", "password_hash": "A9ids7u0Y2QdpvcqtPNpIHWH7gZTlViOSeitcpjyuu0i5Bb6", "hashing_algorithm": "rabbit_password_hashing_sha256", "tags": "" },
+    { "name": "oauth-ms-user", "password_hash": "aBOAVmoET048qfDCU1MUtS9N0fKv67PtbY8Ct/kbIlbp7UiE", "hashing_algorithm": "rabbit_password_hashing_sha256", "tags": "" }
   ],
   "vhosts": [
-    { "name": "admin-vhost" },
+    { "name": "/" },
     { "name": "api-gateway-vhost" },
     { "name": "post-ms-vhost" },
     { "name": "oauth-ms-vhost" }
   ],
   "permissions": [
-    {
-      "user": "anekra",
-      "vhost": "admin-vhost",
-      "configure": ".*",
-      "write": ".*",
-      "read": ".*"
-    },
-    {
-      "user": "api-gateway-user",
-      "vhost": "api-gateway-vhost",
-      "configure": ".*",
-      "write": ".*",
-      "read": ".*"
-    },
-    {
-      "user": "post-ms-user",
-      "vhost": "post-ms-vhost",
-      "configure": ".*",
-      "write": ".*",
-      "read": ".*"
-    },
-    {
-      "user": "oauth-ms-user",
-      "vhost": "oauth-ms-vhost",
-      "configure": ".*",
-      "write": ".*",
-      "read": ".*"
-    }
+    { "user": "anekra", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" },
+    { "user": "anekra", "vhost": "api-gateway-vhost", "configure": ".*", "write": ".*", "read": ".*" },
+    { "user": "anekra", "vhost": "post-ms-vhost", "configure": ".*", "write": ".*", "read": ".*" },
+    { "user": "anekra", "vhost": "oauth-ms-vhost", "configure": ".*", "write": ".*", "read": ".*" },
+    { "user": "api-gateway-user", "vhost": "api-gateway-vhost", "configure": ".*", "write": ".*", "read": ".*" },
+    { "user": "post-ms-user", "vhost": "post-ms-vhost", "configure": ".*", "write": ".*", "read": ".*" },
+    { "user": "post-ms-user", "vhost": "api-gateway-vhost", "configure": "", "write": ".*", "read": "" },
+    { "user": "oauth-ms-user", "vhost": "oauth-ms-vhost", "configure": ".*", "write": ".*", "read": ".*" },
+    { "user": "oauth-ms-user", "vhost": "oauth-ms-vhost", "configure": "", "write": ".*", "read": "" }
   ],
-  "policies": [],
-  "queues": [],
-  "exchanges": [],
-  "bindings": []
+  "parameters": [
+    { "vhost": "post-ms-vhost", "component": "federation-upstream", "name": "api-gw-for-post-ms", "value": { "uri": "amqp://rabbitmq:5672/api-gateway-vhost", "expires": 3600000 } },
+    { "vhost": "oauth-ms-vhost", "component": "federation-upstream", "name": "api-gw-for-oauth-ms", "value": { "uri": "amqp://rabbitmq:5672/api-gateway-vhost", "expires": 3600000 } }
+  ],
+  "policies": [
+    { "vhost": "post-ms-vhost", "name": "federate-topics", "pattern": "^(TopicExchange|RpcExchange)$", "apply-to": "exchanges", "definition": { "federation-upstream": "api-gw-for-post-ms" }, "priority": 0 },
+    { "vhost": "oauth-ms-vhost", "name": "federate-topics", "pattern": "^(TopicExchange|RpcExchange)$", "apply-to": "exchanges", "definition": { "federation-upstream": "api-gw-for-oauth-ms" }, "priority": 0 }
+  ],
+  "exchanges": [
+    { "name": "TopicExchange", "vhost": "api-gateway-vhost", "type": "topic", "durable": true, "auto_delete": false },
+    { "name": "TopicExchange", "vhost": "post-ms-vhost", "type": "topic", "durable": true, "auto_delete": false },
+    { "name": "RpcExchange", "vhost": "api-gateway-vhost", "type": "topic", "durable": true, "auto_delete": false },
+    { "name": "RpcExchange", "vhost": "post-ms-vhost", "type": "topic", "durable": true, "auto_delete": false }
+  ],
+  "queues": [
+    { "name": "PostRpcQueue", "vhost": "post-ms-vhost", "durable": true, "exclusive": true, "auto_delete": false },
+    { "name": "PostTopicQueue", "vhost": "post-ms-vhost", "durable": true, "exclusive": false, "auto_delete": false },
+    { "name": "DraftRpcQueue", "vhost": "post-ms-vhost", "durable": true, "exclusive": true, "auto_delete": false },
+    { "name": "DraftTopicQueue", "vhost": "post-ms-vhost", "durable": true, "exclusive": false, "auto_delete": false }
+  ],
+  "bindings": [
+    { "source": "RpcExchange", "vhost": "post-ms-vhost", "destination": "PostRpcQueue", "destination_type": "queue", "routing_key": "post.#" },
+    { "source": "TopicExchange", "vhost": "post-ms-vhost", "destination": "PostTopicQueue", "destination_type": "queue", "routing_key": "post.#" },
+    { "source": "RpcExchange", "vhost": "post-ms-vhost", "destination": "DraftRpcQueue", "destination_type": "queue", "routing_key": "post.#" },
+    { "source": "TopicExchange", "vhost": "post-ms-vhost", "destination": "DraftTopicQueue", "destination_type": "queue", "routing_key": "post.#" }
+  ]
 }
