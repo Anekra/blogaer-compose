@@ -21,7 +21,7 @@
     { "user": "post-ms-user", "vhost": "post-ms-vhost", "configure": ".*", "write": ".*", "read": ".*" },
     { "user": "post-ms-user", "vhost": "api-gateway-vhost", "configure": "", "write": ".*", "read": "" },
     { "user": "oauth-ms-user", "vhost": "oauth-ms-vhost", "configure": ".*", "write": ".*", "read": ".*" },
-    { "user": "oauth-ms-user", "vhost": "oauth-ms-vhost", "configure": "", "write": ".*", "read": "" }
+    { "user": "oauth-ms-user", "vhost": "api-gateway-vhost", "configure": "", "write": ".*", "read": "" }
   ],
   "parameters": [
     { "vhost": "post-ms-vhost", "component": "federation-upstream", "name": "api-gw-for-post-ms", "value": { "uri": "amqp://rabbitmq:5672/api-gateway-vhost", "expires": 3600000 } },
@@ -35,18 +35,23 @@
     { "name": "TopicExchange", "vhost": "api-gateway-vhost", "type": "topic", "durable": true, "auto_delete": false },
     { "name": "TopicExchange", "vhost": "post-ms-vhost", "type": "topic", "durable": true, "auto_delete": false },
     { "name": "RpcExchange", "vhost": "api-gateway-vhost", "type": "topic", "durable": true, "auto_delete": false },
-    { "name": "RpcExchange", "vhost": "post-ms-vhost", "type": "topic", "durable": true, "auto_delete": false }
+    { "name": "RpcExchange", "vhost": "post-ms-vhost", "type": "topic", "durable": true, "auto_delete": false },
+    { "name": "RpcExchange", "vhost": "oauth-ms-vhost", "type": "topic", "durable": true, "auto_delete": false }
   ],
   "queues": [
     { "name": "PostRpcQueue", "vhost": "post-ms-vhost", "durable": true, "exclusive": true, "auto_delete": false },
     { "name": "PostTopicQueue", "vhost": "post-ms-vhost", "durable": true, "exclusive": false, "auto_delete": false },
     { "name": "DraftRpcQueue", "vhost": "post-ms-vhost", "durable": true, "exclusive": true, "auto_delete": false },
-    { "name": "DraftTopicQueue", "vhost": "post-ms-vhost", "durable": true, "exclusive": false, "auto_delete": false }
+    { "name": "DraftTopicQueue", "vhost": "post-ms-vhost", "durable": true, "exclusive": false, "auto_delete": false },
+    { "name": "OauthGoogleQueue", "vhost": "oauth-ms-vhost", "durable": true, "exclusive": true, "auto_delete": false },
+    { "name": "OauthGithubQueue", "vhost": "oauth-ms-vhost", "durable": true, "exclusive": true, "auto_delete": false }
   ],
   "bindings": [
     { "source": "RpcExchange", "vhost": "post-ms-vhost", "destination": "PostRpcQueue", "destination_type": "queue", "routing_key": "post.#" },
     { "source": "TopicExchange", "vhost": "post-ms-vhost", "destination": "PostTopicQueue", "destination_type": "queue", "routing_key": "post.#" },
     { "source": "RpcExchange", "vhost": "post-ms-vhost", "destination": "DraftRpcQueue", "destination_type": "queue", "routing_key": "post.#" },
-    { "source": "TopicExchange", "vhost": "post-ms-vhost", "destination": "DraftTopicQueue", "destination_type": "queue", "routing_key": "post.#" }
+    { "source": "TopicExchange", "vhost": "post-ms-vhost", "destination": "DraftTopicQueue", "destination_type": "queue", "routing_key": "post.#" },
+    { "source": "RpcExchange", "vhost": "oauth-ms-vhost", "destination": "OauthGoogleQueue", "destination_type": "queue", "routing_key": "oauth.google.#" },
+    { "source": "RpcExchange", "vhost": "oauth-ms-vhost", "destination": "OauthGithubQueue", "destination_type": "queue", "routing_key": "oauth.github.#" }
   ]
 }
